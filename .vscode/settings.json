@@ -1,0 +1,13 @@
+{
+    "cSpell.words": [
+        "addgroup",
+        "adduser",
+        "choco",
+        "dockerd",
+        "kube",
+        "newgrp"
+    ],
+    "cSpell.ignoreWords": [
+        "cest"
+    ]
+}
