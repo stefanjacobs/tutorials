@@ -121,7 +121,7 @@ machine as you like and the docker daemon will restart as well. And
 if you do not need it, just stop it - and it will not eat up precious
 resources, nice! Well done!
 
-## Setup host as using the dockerhost
+## Setup the host to use the dockerhost
 
 You have to have docker installed (not the daemon oder the server). For MacOS this is e.g.
 
@@ -149,7 +149,15 @@ a shell, those get loaded into the environment:
     alias stop-dockerhost='multipass stop dockerhost'
     alias start-dockerhost='multipass start dockerhost'
 
-Yes, well done, good job! This was part 1 of a multipart series of developing locally with Kubernetes.
+Yes, well done, good job! This was part 1 of a multipart series of developing locally with Docker and Kubernetes.
+
+## Appendix
+
+The whole process is automated in the shell script [createDockerhost.sh](createDockerhost.sh)
+
+## Contact
+
+You can contact me using [Twitter](https://twitter.com/intent/tweet?url=https%3a%2f%2fstefanjacobs.github.io%2ftutorials%2f&text=Developing%20with%20Kubernetes%20and%20Docker%20on%20localhost%20without%20messing%20up%20your%20system&via=stefanjacobs&original_referer=https://stefanjacobs.github.io/tutorials/) (my [profile](https://twitter.com/stefanj78)) or if you have comments regarding this tutorial, visit me on [GitHub](https://github.com/stefanjacobs/tutorials) and file an [issue](https://github.com/stefanjacobs/tutorials/issues) or create a [pull requests](https://github.com/stefanjacobs/tutorials/pulls).
 
 ## References
 
