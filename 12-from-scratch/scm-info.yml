@@ -1,0 +1,6 @@
+version: v1
+contacts:
+  - db.vendo.ops@deutschebahn.com
+confidentiality: confidential
+custom:
+  jira-group: _proj_ops
