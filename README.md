@@ -18,6 +18,8 @@ This is a multi part series that is crossposted on GitHub and Dev.to. If there i
 8. [Part 8: Scale-Up/-Down 'without' errors](08-scale-up-down/README.md)
 9. [Part 9: Rate Limit your app](09-rate-limiting/README.md)
 10. [Part 10: Use correct Java Memory Settings](10-correct-jvm-mem/README.md)
+11. [Part 11: Tools for local development](11-tools-for-local-dev/README.md)
+12. [Part 12: `FROM scratch` example](12-from-scratch/README.md)
 
 ## Contact
 

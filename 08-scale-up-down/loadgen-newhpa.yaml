@@ -1,0 +1,33 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: loadgen
+spec:
+  minReplicas: 1
+  maxReplicas: 8
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: loadgen
+  behavior: # essential
+    scaleUp:
+      # look back in time if scale up is really needed
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 200
+        # interval at which the hpa analyzes the situation
+        periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 30
