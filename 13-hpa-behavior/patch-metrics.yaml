@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "5"
+    objectset.rio.cattle.io/applied: H4sIAAAAAAAA/6yTT2/TQBDFvwqas+00f9oQSxyqlhMQkJC4VDlMdifN4v2nnYnBivzd0cZUBLUmHHpbe3d+++bN2yNgNN8osQkeasAYedJOoYDGeA013FO0oXPkBQpwJKhREOojoPdBUEzwnD/D9jspYZIqmVApFLFUmTAxGQLF6H744SmVj20DNTRzPttpp8WbD8brd7daB38R4dER1FliMopLptRSKvW5/MsAjqgypTlsqeSOhRz0BVjckj212bzlEmN8dtE/6HvkPdRA0yuaLa5pOqfFDS5n12qltdaL3Yq2s/lqN10sl8vFTuf7XuwFhv8jEjmSygKZLCkJKa8ditp/vKy97wsQctGi0KnubMz/0fqo4DNZKnhB4ykx1A9HMA4fc0FCr/aUJn8X1u1VNa9uYNyINtiDo0/h4GUAurz8gpKdnoiLf2rFxVKbBP2m3xQQkwnJSHdnkXk9nBhMLH3QVKpkxCi0UEC+zCi6VSqz1yNKJFhKT8/g4QgNdVDD3W/MKbr82dsuByTmk3k08P6nYWHoiyPQbkdKoIZ1+Kr2pA+W8us7YU6SUrBU5WknT0KcI5XdTMGW0aKnVyU7ZBnS/By5efJ96JRclO7e5KT1L7nd9/2vAAAA//9qo4eWXQQAAA
+    objectset.rio.cattle.io/id: ""
+    objectset.rio.cattle.io/owner-gvk: k3s.cattle.io/v1, Kind=Addon
+    objectset.rio.cattle.io/owner-name: metrics-server-deployment
+    objectset.rio.cattle.io/owner-namespace: kube-system
+  labels:
+    k8s-app: metrics-server
+  name: metrics-server
+  namespace: kube-system
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      k8s-app: metrics-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        k8s-app: metrics-server
+      name: metrics-server
+    spec:
+      containers:
+      # Patch Metrics server to have a resolution of 15 seconds
+      - args:
+        - --metric-resolution=15s
+        image: rancher/metrics-server:v0.3.6
+        imagePullPolicy: IfNotPresent
+        name: metrics-server
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-dir
+      dnsPolicy: ClusterFirst
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: metrics-server
+      serviceAccountName: metrics-server
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      volumes:
+      - emptyDir: {}
+        name: tmp-dir
