@@ -8,7 +8,7 @@ fulfills the following requirements:
 - Fairly low CPU consumption
 - Ability to throw away and restart from scratch within minutes using simple script(s)
 
-Some experiments and several distributions later I found MicroK8s and K3s.
+Some experiments and several distributions later I found MicroK8s, K0s and K3s.
 
 ## MicroK8s
 
@@ -41,6 +41,15 @@ After that step the installation was done and the cluster was accessible using
 
 It is obvious that an alias can be used to map `kubectl="microk8s kubectl"` to
 ease access within the virtual machine.
+
+## K0s
+
+The distribution [K0s](https://k0sproject.io/) looks fairly promising and has
+in my tests the same ressource consumption as K3s. Because I like traeffik more
+I did not follow the K0s path. See [here for a working installation guide](https://www.mirantis.com/blog/how-to-set-up-k0s-kubernetes-a-quick-and-dirty-guide/).
+
+The K0s can be installed in multipass the same way as in the script below.
+It is fairly easy to script and install if you like this distribution more.
 
 ## K3s
 
@@ -86,7 +95,10 @@ the command:
 
     KUBECONFIG=~/.kube/config.backup:k3s.yaml kubectl config view --flatten > ~/.kube/config
 
-**Be aware** that you should backup a working config before merging and that you should not overwrite an active configuration. Because of that I switched to working with different Kubernetes config files using [direnv](https://direnv.net/).
+**Be aware** that you should backup a working config before merging and
+that you should not overwrite an active configuration. Because of that
+I switched to working with different Kubernetes config files using
+[direnv](https://direnv.net/).
 
 ## Contact
 
