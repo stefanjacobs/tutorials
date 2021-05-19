@@ -1,0 +1,4 @@
+mirrors:
+  "##REPLACE-WITH-KUBERNETES-HOST##":
+    endpoint:
+      - "http://##REPLACE-WITH-KUBERNETES-HOST##"
