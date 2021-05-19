@@ -69,7 +69,7 @@ sed -i '' "s/default/${CLUSTERNAME}/g" k3s.yaml
 # export settings to .envrc
 echo "export KUBECONFIG=\${PWD}/02-kube-multipass/k3s.yaml" > ../.envrc
 echo "export CLUSTER_IP=${IP}" >> ../.envrc
-echo "export CLUSTER_HOSTNAME=${IP/./-}.nip.io" >> ../.envrc
+echo "export CLUSTER_HOSTNAME=${IP//./-}.nip.io" >> ../.envrc
 
 # We are set
 echo
