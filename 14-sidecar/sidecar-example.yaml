@@ -1,0 +1,62 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sidecar-example
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: 192-168-64-11.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: sidecar-example-service
+            port: 
+              number: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sidecar-example-service
+  labels:
+    run: sidecar-example
+spec:
+  selector:
+    app: sidecar-example
+  ports:
+    - protocol: TCP
+      port: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-example
+  labels:
+    app: sidecar-example
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sidecar-example
+  template:
+    metadata:
+      labels:
+        app: sidecar-example
+    spec:
+      containers:
+      - name: application
+        image: "magalixcorp/flasksidecar"
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+      - name: sidecar-example
+        image: "magalixcorp/nginxsidecar"
+        ports:
+        - containerPort: 80
+          protocol: TCP

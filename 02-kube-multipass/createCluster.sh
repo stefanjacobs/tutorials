@@ -9,6 +9,7 @@ MASTERNODE="${NODENAME}-master"
 # The number of CPUs for each k3s node
 CPU_PER_NODE=2
 MEM_PER_NODE=2G
+DISC_PER_NODE=10G
 
 if [ $# -ge 1 ]; then
     NODECOUNT=$1
@@ -34,11 +35,11 @@ else
 fi
 
 # Create master node
-multipass launch -n ${MASTERNODE} -c ${CPU_PER_NODE} -m ${MEM_PER_NODE}
+multipass launch -n ${MASTERNODE} -c ${CPU_PER_NODE} -m ${MEM_PER_NODE} -d ${DISC_PER_NODE}
 
 # Create cluster member
 for NODE in ${NODES}; do
-    multipass launch -n ${NODE} -c ${CPU_PER_NODE} -m ${MEM_PER_NODE}
+    multipass launch -n ${NODE} -c ${CPU_PER_NODE} -m ${MEM_PER_NODE} -d ${DISC_PER_NODE}
 done
 
 # Init cluster on node1
