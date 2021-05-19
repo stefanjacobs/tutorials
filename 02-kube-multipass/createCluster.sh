@@ -66,12 +66,17 @@ sed -i '' "s/127.0.0.1/$IP/" k3s.yaml
 # Give the cluster a name in the configuration file
 sed -i '' "s/default/${CLUSTERNAME}/g" k3s.yaml
 
+# export settings to .envrc
+echo "export KUBECONFIG=\${PWD}" > ../.envrc
+echo "export CLUSTER_IP=${IP}" >> ../.envrc
+
 # We are set
 echo
-echo "K3s cluster is ready !"
+echo "K3s cluster is ready with cluster ip ${IP}!"
 echo
 echo "Run the following command to set the current context:"
 echo "$ export KUBECONFIG=$PWD/k3s.yaml"
+echo "$ export CLUSTER_IP=${IP}"
 echo
 echo "and start to use the cluster:"
 echo  "$ kubectl get nodes"
