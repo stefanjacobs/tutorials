@@ -151,6 +151,10 @@ a shell, those get loaded into the environment:
 
 Yes, well done, good job! This was part 1 of a multipart series of developing locally with Docker and Kubernetes.
 
+## Limitations
+
+At the moment, multipass does not seem to work within a VPN environment.
+
 ## Appendix
 
 The whole process is automated in the shell script [createDockerhost.sh](createDockerhost.sh)

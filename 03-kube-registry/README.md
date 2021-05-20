@@ -30,14 +30,14 @@
     sudo systemctl restart k3s
 
 - docker pull alpine
-- docker tag alpine 192-168-64-11.nip.io/alpine:latest
-- docker push 192-168-64-11.nip.io/alpine:latest
+- docker tag alpine registry-192-168-64-11.nip.io/alpine:latest
+- docker push registry-192-168-64-11.nip.io/alpine:latest
 
 - docker images
 
-- docker image rm 192-168-64-11.nip.io/alpine
+- docker image rm registry-192-168-64-11.nip.io/alpine
 - docker images
-- docker run -it 192-168-64-11.nip.io/alpine /bin/sh
+- docker run -it --rm registry-192-168-64-11.nip.io/alpine /bin/sh
 
 ## References
 
