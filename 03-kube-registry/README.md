@@ -42,3 +42,7 @@
 ## References
 
 - [How to setup a local registry](https://itnext.io/how-to-setup-a-private-registry-on-k3s-d9283906d16)
+
+## Authors
+
+- [@stefanjacobs](https://git.tech.rz.db.de/StefanJacobs)
