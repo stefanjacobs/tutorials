@@ -8,7 +8,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: http
 spec:
   rules:
-  - host: hello-192-168-64-11.nip.io
+  - host: hello-##REPLACE-WITH-KUBERNETES-HOST##
     http:
       paths:
       - path: /
@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: application
-        image: "registry-192-168-64-11.nip.io/go-hello-world:latest"
+        image: "registry-##REPLACE-WITH-KUBERNETES-HOST##/go-hello-world:latest"
         ports:
         - containerPort: 8080
           protocol: TCP

@@ -15,9 +15,15 @@ docker-push: go-build
 	docker push registry-${CLUSTER_HOSTNAME}/go-hello-world:latest
 
 kubernetes-apply: docker-push
-	kubectl apply -f deployment.yaml
+	cp deployment-template.yaml /tmp/deployment.yaml
+	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/deployment.yaml
+	kubectl apply -f /tmp/deployment.yaml
+	rm /tmp/deployment.yaml
 
 kubernetes-delete:
+	cp deployment-template.yaml /tmp/deployment.yaml
+	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/deployment.yaml
 	kubectl delete -f deployment.yaml
+	rm /tmp/deployment.yaml
 
 
