@@ -10,9 +10,9 @@ docker-build: go-build
 docker-run: docker-build
 	docker run -it -p 8080:8080 go-hello-world:latest
 
-docker-push: go-build
-	docker build . -t go-hello-world:latest -t registry-${CLUSTER_HOSTNAME}/go-hello-world:latest
-	docker push registry-${CLUSTER_HOSTNAME}/go-hello-world:latest
+docker-push: docker-build
+	docker build . -t go-hello-world:latest -t ${REGISTRY}/go-hello-world:latest
+	docker push ${REGISTRY}/go-hello-world:latest
 
 kubernetes-apply: docker-push
 	cp deployment-template.yaml /tmp/04_deployment.yaml

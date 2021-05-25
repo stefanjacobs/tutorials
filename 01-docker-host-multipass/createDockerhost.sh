@@ -39,6 +39,23 @@ sudo sh -c 'echo """{
 sudo systemctl restart snap.docker.dockerd
 EOF
 
+replace_or_insert() {
+    FILE="../.envrc"
+    grep -q "$1" $FILE
+    if [ $? -eq 0 ]
+    then
+        # echo "$FILE contains '$1'"
+        sed -i '' "s|.*$1.*|$2|" $FILE
+    else
+        # echo "$FILE does not contain '$1'"
+        echo "$2" >> $FILE
+    fi
+} 
+
+touch ../.envrc
+replace_or_insert "MULTIPASS_DOCKERHOST" "export MULTIPASS_DOCKERHOST=${DOCKERHOSTNAME}"
+replace_or_insert "DOCKER_HOST" "export DOCKERHOST=\"tcp://${IP}:2375\""
+
 # We are done!
 echo
 echo "Dockerhost is ready!"

@@ -13,7 +13,7 @@ kubectl apply -f ${TEMPFILE}
 rm ${TEMPFILE}
 
 # 2. Add the registry to the dockerhost
-DOCKERHOSTNAME="dockerhost"
+DOCKERHOSTNAME=${MULTIPASS_DOCKERHOST}
 FILE="/var/snap/docker/current/config/daemon.json"
 multipass copy-files dockerhost-daemon-template.json ${DOCKERHOSTNAME}:/home/ubuntu/daemon.json
 multipass exec ${DOCKERHOSTNAME} -- bash <<EOF
@@ -46,4 +46,20 @@ sudo systemctl restart k3s-agent
 EOF
 done
 
-echo "export REGISTRY=${REGISTRY_HOSTNAME}" >> ../.envrc
+
+replace_or_insert() {
+    FILE="../.envrc"
+    grep -q "$1" $FILE
+    if [ $? -eq 0 ]
+    then
+        # echo "$FILE contains '$1'"
+        sed -i '' "s|.*$1.*|$2|" $FILE
+    else
+        # echo "$FILE does not contain '$1'"
+        echo "$2" >> $FILE
+    fi
+} 
+
+# export settings to .envrc
+touch ../.envrc
+replace_or_insert "REGISTRY" "export REGISTRY=${REGISTRY_HOSTNAME}"
