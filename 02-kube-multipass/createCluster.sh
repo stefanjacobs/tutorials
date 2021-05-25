@@ -66,10 +66,25 @@ sed -i '' "s/127.0.0.1/$IP/" k3s.yaml
 # Give the cluster a name in the configuration file
 sed -i '' "s/default/${CLUSTERNAME}/g" k3s.yaml
 
+replace() {
+    FILE="../.envrc"
+    grep -q "$1" $FILE
+    if [ $? -eq 0 ]
+    then
+        # echo "$FILE contains '$1'"
+        sed -i '' "s|.*$1.*|$2|" $FILE
+    else
+        # echo "$FILE does not contain '$1'"
+        echo "$2" >> $FILE
+    fi
+} 
+
 # export settings to .envrc
-echo "export KUBECONFIG=\${PWD}/02-kube-multipass/k3s.yaml" > ../.envrc
-echo "export CLUSTER_IP=${IP}" >> ../.envrc
-echo "export CLUSTER_HOSTNAME=${IP//./-}.nip.io" >> ../.envrc
+replace "KUBECONFIG" "export KUBECONFIG=\${PWD}/02-kube-multipass/k3s.yaml"
+replace "CLUSTER_IP" "export CLUSTER_IP=${IP}"
+replace "CLUSTER_HOSTNAME" "export CLUSTER_HOSTNAME=${IP//./-}.nip.io"
+replace "MULTIPASS_K3S_MASTER" "export MULTIPASS_K3S_MASTER=${MASTERNODE}"
+replace "MULTIPASS_K3S_WORKER" "export MULTIPASS_K3S_WORKER=\"${NODES}\""
 
 # We are set
 echo
