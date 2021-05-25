@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-cp registry-template.yaml registry.yaml
-sed -i '' -e "s/##KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" registry.yaml
+REGISTRY_HOSTNAME="registry-${CLUSTER_HOSTNAME}"
 
-kubectl delete -f registry.yaml
+cp registry-template.yaml /tmp/registry.yaml
+sed -i '' -e "s/##KUBERNETES-HOST##/${REGISTRY_HOSTNAME}/g" /tmp/registry.yaml
 
-rm registry.yaml
+kubectl delete -f /tmp/registry.yaml
+
+rm /tmp/registry.yaml

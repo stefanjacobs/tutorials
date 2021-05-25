@@ -1,0 +1,2 @@
+- purge multipass stuff shell skript
+- start-k3s hosts shell skript

@@ -23,12 +23,27 @@ sudo systemctl restart snap.docker.dockerd
 EOF
 
 # 3. Add the registry to kubernetes
-# TODO: For now the registry is only added to the master, it should be added to all nodes
-NODENAME="k3snode-master"
-FILE="/etc/rancher/k3s/registries.yaml"
-multipass copy-files k3s-registries-template.yaml ${NODENAME}:/home/ubuntu/registries.yaml
-multipass exec ${NODENAME} -- bash <<EOF
+NODES="${MULTIPASS_K3S_MASTER}"
+for NODENAME in ${NODES}; do
+    FILE="/etc/rancher/k3s/registries.yaml"
+    multipass copy-files k3s-registries-template.yaml ${NODENAME}:/home/ubuntu/registries.yaml
+    multipass exec ${NODENAME} -- bash <<EOF
 sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${REGISTRY_HOSTNAME}/g" registries.yaml
 sudo cp registries.yaml ${FILE}
 sudo systemctl restart k3s
 EOF
+done
+NODES="${MULTIPASS_K3S_WORKER}"
+for NODENAME in ${NODES}; do
+    DIR="/etc/rancher/k3s/"
+    FILE="/etc/rancher/k3s/registries.yaml"
+    multipass copy-files k3s-registries-template.yaml ${NODENAME}:/home/ubuntu/registries.yaml
+    multipass exec ${NODENAME} -- bash <<EOF
+sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${REGISTRY_HOSTNAME}/g" registries.yaml
+sudo mkdir -p ${DIR}
+sudo cp registries.yaml ${FILE}
+sudo systemctl restart k3s-agent
+EOF
+done
+
+echo "export REGISTRY=${REGISTRY_HOSTNAME}" >> ../.envrc
