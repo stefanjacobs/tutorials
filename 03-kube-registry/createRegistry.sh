@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+declare -a vars=(CLUSTER_HOSTNAME MULTIPASS_DOCKERHOST MULTIPASS_K3S_MASTER MULTIPASS_K3S_WORKER)
+for var_name in "${vars[@]}"
+do
+        if [ -z "$(eval "echo \$$var_name")" ]; then
+                echo "Missing environment variable $var_name"
+                exit 1
+        fi
+done
+
 REGISTRY_HOSTNAME="registry-${CLUSTER_HOSTNAME}"
 
 # 1. Create the registry

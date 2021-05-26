@@ -153,7 +153,7 @@ Yes, well done, good job! This was part 1 of a multipart series of developing lo
 
 ## Limitations
 
-At the moment, multipass does not seem to work within a VPN environment.
+At the moment, multipass does not seem to work within a VPN environment, see [this issue](https://github.com/canonical/multipass/issues/1336).
 
 ## Appendix
 
