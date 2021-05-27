@@ -17,7 +17,7 @@ spec:
           service: 
             name: hello-world-service
             port: 
-              number: 8080
+              number: 80
 
 ---
 apiVersion: v1
@@ -31,7 +31,10 @@ spec:
     app: hello-world
   ports:
     - protocol: TCP
-      port: 8080
+      # Port accessible inside cluster
+      port: 80
+      # Port to forward to inside the pod
+      targetPort: 8080
 
 ---
 apiVersion: apps/v1
@@ -56,3 +59,36 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
+
+        ## Probe section
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 8080
+            scheme: HTTP
+          failureThreshold: 2
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 8080
+            scheme: HTTP
+          failureThreshold: 2
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 1
+        
+        ## Lifecycle event section
+        lifecycle:
+          preStop:
+            # because we have a long living request in the service, we use that:
+            httpGet:
+              path: /PrestopSleep
+              port: 8080
+            # normally you would use something like the following:
+            # exec:
+            #   command: ["/bin/sh", "-c", "sleep 5"]
+
+      terminationGracePeriodSeconds: 30

@@ -26,5 +26,23 @@ kubernetes-delete:
 	kubectl delete -f /tmp/04_deployment.yaml
 	rm /tmp/04_deployment.yaml
 
+load:
+	docker run --rm jordi/ab -k -c 33 -n 1000 http://hello-${CLUSTER_HOSTNAME}/TestUser
+
+scale-to-one:
+	kubectl scale deployment hello-world  --replicas 1
+
+scale-to-two:
+	kubectl scale deployment hello-world  --replicas 2
+
+scale-to-three:
+	kubectl scale deployment hello-world  --replicas 3
+
+scale-to-four:
+	kubectl scale deployment hello-world  --replicas 4
+
+scale-to-five:
+	kubectl scale deployment hello-world  --replicas 5
+
 clean:
 	rm -f hello /tmp/04_deployment.yaml
