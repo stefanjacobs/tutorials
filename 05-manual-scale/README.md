@@ -31,7 +31,7 @@ docker run
 
 ## Scale Up
 
-Scale up only works error free, when there are `liveness` and `readyness` probes configured. See the [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for details about how to configure such a probe.
+Scale up only works error free, when there are `liveness` and `readyness` probes correctly configured. See the [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) for details about how to configure such a probe.
 
 To have those probes working, you have to specify an endpoint that accepts these requests. Note that readyness and liveness endpoints should be two different endpoints in real world applications. In the example we added the `/status` endpoint in [hello.go at line 21 and line 53](./hello.go).
 

@@ -54,7 +54,7 @@ replace_or_insert() {
 
 touch ../.envrc
 replace_or_insert "MULTIPASS_DOCKERHOST" "export MULTIPASS_DOCKERHOST=${DOCKERHOSTNAME}"
-replace_or_insert "DOCKER_HOST" "export DOCKERHOST=\"tcp://${IP}:2375\""
+replace_or_insert "DOCKER_HOST" "export DOCKER_HOST=\"tcp://${IP}:2375\""
 
 # We are done!
 echo
