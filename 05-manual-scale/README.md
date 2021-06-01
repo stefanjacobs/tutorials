@@ -49,7 +49,7 @@ The scale down scenario is more complicated. We have to care about a several thi
 
 ### Graceful Shutdown
 
-TODO:
+
 
 ### Orchestrate service and pod
 
@@ -61,7 +61,8 @@ TODO:
 
 ### Configure correct grace period
 
-TODO:
+The configuration parameter `terminationGracePeriodSeconds` of a pod contains the number of seconds that a pod is killed, after the `SIGTERM` signal was sent to the process. In the optimal configuration this is longer than the configured graceful shutdown time added to the length of the configured `preStop` Hook. Only then the pod is guaranteed to have received the `SIGTERM` signal and the graceful shutdown can be finished.
+When the `terminationGracePeriodSeconds` has expired, the kubernetes controller sends a `SIGKILL` to the processes/container in the pod and the processes are forcefully shut down.
 
 ## Takeaways
 

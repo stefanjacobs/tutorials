@@ -48,8 +48,8 @@ This new HPA is configured to scale down 1 instance every 30 seconds (if the met
 ### Findings/Results
 
 - Parameter `stabilizationWindowSeconds`: The number of seconds that are looked back in the metrics history for preventing flipping states
-- Parameter `periodSeconds` in the policies: The interval in number of seconds that the autoscaler applies this policy. There can be multiple policies in the `scaleUp` or `scaleDown` behaviour.
-- Parameter `selectPolicy` in the `scaleUp` or `scaleDown` behaviour can be set to `Min`, `Max` or `Disabled`. For details see [the official docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#scaling-policies). In a nutshell, if you have multiple policies for a behaviour the policy is used to select the min/max value.
+- Parameter `periodSeconds` in the policies: The interval in number of seconds that the autoscaler applies this policy. There can be multiple policies in the `scaleUp` or `scaleDown` behavior.
+- Parameter `selectPolicy` in the `scaleUp` or `scaleDown` behavior can be set to `Min`, `Max` or `Disabled`. For details see [the official docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#scaling-policies). In a nutshell, if you have multiple policies for a behavior the policy is used to select the min/max value.
 
 ## Contact
 

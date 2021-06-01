@@ -83,12 +83,14 @@ spec:
         ## Lifecycle event section
         lifecycle:
           preStop:
-            # because we have a long living request in the service, we use that:
+            # because we have a sleep request, (sleeping 5 sec) in the service, 
+            # we use that request here: he pod will get SIGTERM after the preStop Hook has been executed
             httpGet:
-              path: /PrestopSleep
+              path: /sleep
               port: 8080
             # normally you would use something like the following:
             # exec:
             #   command: ["/bin/sh", "-c", "sleep 5"]
 
+      # preStop Hook is 5 sec, graceful shutdown in app is 20 sec, leading to:
       terminationGracePeriodSeconds: 30

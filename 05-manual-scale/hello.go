@@ -19,6 +19,7 @@ func main() {
 
 	log.Println("Welcome, user! Curl me (locally with Port 8080/hello) with your name as path :-D")
 	http.HandleFunc("/status", StatusServer)
+	http.HandleFunc("/sleep", SleepServer)
 	http.HandleFunc("/", HelloServer)
 	server := &http.Server{Addr: ":8080"}
 
@@ -46,8 +47,13 @@ func main() {
 }
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {
-	time.Sleep(5 * time.Second)
+	time.Sleep(2 * time.Second)
 	fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+}
+
+func SleepServer(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(5 * time.Second)
+	fmt.Fprintf(w, "Sleeping done... was good!", r.URL.Path[1:])
 }
 
 func StatusServer(w http.ResponseWriter, r *http.Request) {
