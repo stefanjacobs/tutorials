@@ -10,23 +10,34 @@ docker-push: docker-build
 	docker push ${REGISTRY}/go-hello-world-sidecar:latest
 
 kubernetes-apply: docker-push
-	kubectl apply -f sidecar.yaml
+	cp sidecar-template.yaml /tmp/sidecar.yaml
+	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/sidecar.yaml
+	kubectl apply -f /tmp/sidecar.yaml
+	rm /tmp/sidecar.yaml
 
 kubernetes-delete:
-	kubectl delete -f sidecar.yaml
-
-
-# kubernetes-apply: docker-push
-# 	cp deployment-template.yaml /tmp/04_deployment.yaml
-# 	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/04_deployment.yaml
-# 	kubectl apply -f /tmp/04_deployment.yaml
-# 	rm /tmp/04_deployment.yaml
-
-# kubernetes-delete:
-# 	cp deployment-template.yaml /tmp/04_deployment.yaml
-# 	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/04_deployment.yaml
-# 	kubectl delete -f /tmp/04_deployment.yaml
-# 	rm /tmp/04_deployment.yaml
+	cp sidecar-template.yaml /tmp/sidecar.yaml
+	sed -i -e "s/##REPLACE-WITH-KUBERNETES-HOST##/${CLUSTER_HOSTNAME}/g" /tmp/sidecar.yaml
+	kubectl delete -f /tmp/sidecar.yaml
+	rm /tmp/sidecar.yaml
 
 clean:
 	rm -f service/hello /tmp/05_deployment.yaml
+
+simple-load:
+	docker run --rm jordi/ab -c 33 -n 1000 http://hello-world-sidecar.${CLUSTER_HOSTNAME}/TestUser
+
+scale-to-one:
+	kubectl scale deployment hello-world-sidecar --replicas 1
+
+scale-to-two:
+	kubectl scale deployment hello-world-sidecar --replicas 2
+
+scale-to-three:
+	kubectl scale deployment hello-world-sidecar --replicas 3
+
+scale-to-four:
+	kubectl scale deployment hello-world-sidecar --replicas 4
+
+scale-to-five:
+	kubectl scale deployment hello-world-sidecar --replicas 5

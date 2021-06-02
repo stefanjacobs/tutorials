@@ -5,7 +5,8 @@
         "choco",
         "dockerd",
         "kube",
-        "newgrp"
+        "newgrp",
+        "pkill"
     ],
     "cSpell.ignoreWords": [
         "cest"

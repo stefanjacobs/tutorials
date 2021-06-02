@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -a vars=(CLUSTER_HOSTNAME MULTIPASS_DOCKERHOST MULTIPASS_K3S_MASTER MULTIPASS_K3S_WORKER)
+declare -a vars=(CLUSTER_HOSTNAME MULTIPASS_DOCKERHOST MULTIPASS_K3S_MASTER)
 for var_name in "${vars[@]}"
 do
         if [ -z "$(eval "echo \$$var_name")" ]; then
