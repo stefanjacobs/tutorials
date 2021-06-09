@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -14,7 +15,7 @@ func main() {
 
 	// simulate a startup time
 	log.Println("Starting up")
-	time.Sleep(25 * time.Second)
+	time.Sleep(2 * time.Second)
 	log.Println("Started")
 
 	log.Println("Welcome, user! Curl me (locally with Port 8080/hello) with your name as path :-D")
@@ -31,7 +32,7 @@ func main() {
 
 	// Setting up signal capturing
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
 
 	// Waiting for SIGINT (pkill -2)
 	<-stop
@@ -43,7 +44,7 @@ func main() {
 		// handle err
 	}
 	// Wait for ListenAndServe goroutine to close.
-    os.Exit(0)
+	os.Exit(0)
 }
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {

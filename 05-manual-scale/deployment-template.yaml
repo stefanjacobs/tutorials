@@ -2,10 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hello-world
+  name: hello-world-ingress
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: http
 spec:
   rules:
   - host: hello-##REPLACE-WITH-KUBERNETES-HOST##
@@ -25,7 +24,7 @@ kind: Service
 metadata:
   name: hello-world-service
   labels:
-    app: hello-world
+    app: hello-world-service
 spec:
   selector:
     app: hello-world
@@ -81,13 +80,13 @@ spec:
           timeoutSeconds: 1
         
         ## Lifecycle event section
-        lifecycle:
-          preStop:
-            # because we have a sleep request, (sleeping 5 sec) in the service, 
-            # we use that request here: he pod will get SIGTERM after the preStop Hook has been executed
-            httpGet:
-              path: /sleep
-              port: 8080
+#        lifecycle:
+#          preStop:
+#            # because we have a sleep request, (sleeping 5 sec) in the service, 
+#            # we use that request here: he pod will get SIGTERM after the preStop Hook has been executed
+#            httpGet:
+#              path: /sleep
+#              port: 8080
             # normally you would use something like the following:
             # exec:
             #   command: ["/bin/sh", "-c", "sleep 5"]
