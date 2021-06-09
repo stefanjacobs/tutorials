@@ -66,6 +66,11 @@ func (c *client) start(stopCh <-chan struct{}) {
 				}
 				continue
 			}
+			if resp.StatusCode >= 400 {
+				// c.err = resp.StatusCode
+				c.errCount++
+				// continue
+			}
 			defer resp.Body.Close()
 			if resp.Body != nil {
 				body, err := ioutil.ReadAll(resp.Body)
