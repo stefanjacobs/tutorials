@@ -1,4 +1,4 @@
-# X Errors in Kubernetes Deployments
+# Six Errors in Kubernetes Deployments
 
 This is a collection of Kubernetes deployment specification errors that are necessary to understand to specify pods that do not loose requests while scaling. You will not see those in "Hello World" examples...
 
@@ -21,6 +21,19 @@ Because of that it is _best practice_ (or better called a workaround) to define 
 
     ([Link to Kubernetes pod termination](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination))
 
-6. **Sidecar Knowhow (Startup and Shutdown)**: Services using a sidecar for authentication, rate limiting, etc. should orchestrate their startup. From Kubernetes perspective they are one entity. Problem is that the processes start unsynchronized, meaning that it is not defined/orchestrated when which container in the pod starts. Depending on when the processes get ready the pod throws errors on startup.
+6. **Sidecar Knowhow (Startup and Shutdown)**: Services using a sidecar for authentication, rate limiting, etc. should orchestrate their startup and shutdown. From Kubernetes perspective they are one entity. Problem is that the processes start unsynchronized, meaning that it is not defined/orchestrated when which container in the pod starts. Depending on when the processes get ready the pod throws errors on startup.
+TODO: fill in
 
 7. **(Bonus) Kubernetes response time critical applications**: A lesser known fact is that cpu limits do actually have performance impact even if the usage is not near the requested cpus! Fractions of cpu perform worse than whole cpus, but you will achieve the best performance with setting no limits at all! That may sound surprising but several experiments showed that removing the limits increased the 95 percentile of response times by about 30%! There is of course the risk of so called _noisy neighbors_ but you may be able enforce autoscaling everywhere (which mitigates noisy neighbors if the target utilization is well below 100%) or configure node groups that partition the cluster in several groups, e.g. one group for applications that have no limits and one group for all other applications. ([Link to references](https://medium.com/omio-engineering/cpu-limits-and-aggressive-throttling-in-kubernetes-c5b20bd8a718))
+
+## Presentation [Slidev](https://github.com/slidevjs/slidev)
+
+To start the slide show:
+
+- `npm install`
+- `npm run dev`
+- visit [http://localhost:3030](http://localhost:3030)
+
+Edit the [slides.md](./slides.md) to see the changes.
+
+Learn more about Slidev on [documentations](https://sli.dev/).

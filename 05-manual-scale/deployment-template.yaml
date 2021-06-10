@@ -55,6 +55,15 @@ spec:
       containers:
       - name: application
         image: "registry-##REPLACE-WITH-KUBERNETES-HOST##/go-hello-world:latest"
+        env:
+        - name: STARTUP_SEC
+          value: "20"
+        - name: REQUEST_SEC
+          value: "3"
+        - name: SLEEP_SEC
+          value: "5"
+        - name: GRACEFUL_SHUTDOWN_SEC
+          value: "20"
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -80,13 +89,13 @@ spec:
           timeoutSeconds: 1
         
         ## Lifecycle event section
-#        lifecycle:
-#          preStop:
-#            # because we have a sleep request, (sleeping 5 sec) in the service, 
-#            # we use that request here: he pod will get SIGTERM after the preStop Hook has been executed
-#            httpGet:
-#              path: /sleep
-#              port: 8080
+        lifecycle:
+          preStop:
+            # because we have a sleep request, (sleeping 5 sec) in the service, 
+            # we use that request here: he pod will get SIGTERM after the preStop Hook has been executed
+            httpGet:
+              path: /sleep
+              port: 8080
             # normally you would use something like the following:
             # exec:
             #   command: ["/bin/sh", "-c", "sleep 5"]

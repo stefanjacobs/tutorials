@@ -9,6 +9,10 @@ load: main.go
 
 build: load
 
+
+manual-scale-load: load
+	./load -clientcount 15 -maxchar 20 -sleep 100 -timeout 5 -url http://hello-${CLUSTER_HOSTNAME}/TestUser
+
 sidecar-load: load
 	./load -clientcount 5 -maxchar 20 -sleep 100 -timeout 5 -url http://hello-world-sidecar.${CLUSTER_HOSTNAME}/TestUser
 
