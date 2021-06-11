@@ -13,15 +13,15 @@ So we have several challenges to simulate in out server and to solve such that K
 
 ### Simulating a startup time for our service
 
-We added a time.Sleep of 25 seconds to the hello service, see [hello.go at line 17](./hello.go). This means that the server only starts serving requests after the startup period is finished. This simulates a startup time that should be respected.
+We added a default time.Sleep of 25 seconds to the hello service, see [hello.go at line 43](./hello.go). This means that the server only starts serving requests after the startup period is finished. This simulates a startup time that should be respected.
 
 ### Simulating long running requests
 
-We added a time.Sleep of 3 seconds to the hello endpoint, see [hello.go at line 48](./hello.go). This means that the server serves the request but it takes three seconds to complete. This simulates long running requests that should not fail.
+We added a default time.Sleep of 5 seconds to the hello endpoint, see [hello.go at line 77](./hello.go). This means that the server serves the request but it takes three seconds to complete. This simulates long running requests that should not fail.
 
 ### Simulating load
 
-There is a Makefile target named load that generates some "load" on the service. To be honest, the service is able to deliver much more requests per second, but for this demo the load is more than enough. We use a classic `ab` ([see doc](https://httpd.apache.org/docs/2.4/programs/ab.html)) for generating load. 
+There is a Makefile target named load that generates some "load" on the service. To be honest, the service is able to deliver much more requests per second, but for this demo the load is more than enough. We use a classic `ab` ([see doc](https://httpd.apache.org/docs/2.4/programs/ab.html)) for generating load.
 
 The load is generated using a docker container:
 

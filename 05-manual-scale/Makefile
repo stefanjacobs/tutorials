@@ -1,10 +1,10 @@
 go-run:
 	go run hello.go
 
-go-build:
+hello: hello.go
 	env GOOS=linux GOARCH=amd64 go build hello.go
 
-docker-build: go-build
+docker-build: hello
 	docker build . -t go-hello-world:latest 
 
 docker-run: docker-build
