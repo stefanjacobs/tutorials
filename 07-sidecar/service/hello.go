@@ -9,13 +9,14 @@ import (
 	"os/signal"
 	"strconv"
 	"time"
+	"syscall"
 )
 
 func getenvStr(key string, fallback string) string {
-    if value, ok := os.LookupEnv(key); ok {
-        return value
-    }
-    return fallback
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }
 
 func getenvInt(key string, fallback string) int {
@@ -57,14 +58,14 @@ func main() {
 
 	// Setting up signal capturing
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
 
 	// Waiting for SIGINT (pkill -2)
 	<-stop
 
 	// Graceful shutdown time is 20 seconds
-	ctx, cancel := context.WithTimeout(context.Background(), 
-						time.Duration(getenvInt("GRACEFUL_SHUTDOWN_SEC", "20"))*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(),
+		time.Duration(getenvInt("GRACEFUL_SHUTDOWN_SEC", "20"))*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
 		// handle err
